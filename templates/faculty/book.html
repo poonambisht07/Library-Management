@@ -1,0 +1,101 @@
+{% extends 'faculty/index.html' %}
+
+{% load static %}
+
+{% block title %} Add Books {% endblock %}
+
+{% block content %}
+<style>
+   body {
+      background-color: rgb(151, 179, 192);
+   }
+   
+   </style>
+<div class="container">
+    <div class="col-md-6 mx-auto text-center">
+       <div class="header-title mt-5">
+          <h1 class="wv-heading--title">
+             Add Book Details
+          </h1>
+          
+       </div>
+    </div>
+    <div class="row">
+       <div class="col-md-4 mx-auto">
+          <div class="myform form ">
+             <form>
+                 <div class="form-group mt-3">
+                  <input type="text" name="Id"  class="form-control my-input" id="bid" placeholder="Book Id">
+                  </div>
+                <div class="form-group">
+                  <input type="text" name="title"  class="form-control my-input" id="btitle" placeholder="Book Title">
+                </div>
+                <div class="form-group">
+                  <input type="text" name="author"  class="form-control my-input" id="bauthor" placeholder="Book Author Name">
+               </div>
+               <div class="form-group">
+                  <input type="text" name="price"  class="form-control my-input" id="bprice" placeholder="Book Price">
+               </div>
+               
+               
+                <div class="text-center ">
+                   <button type="submit" id="bbtn" class=" btn btn-primary send-button tx-tfm">Add Book</button>
+                   
+                 </div> 
+                 <h5 style="color: green"> 
+                    {{ msg }}
+                 </h5>
+
+                </div>
+                
+             </form>
+          </div>
+       </div>
+    </div>
+ </div>
+
+{% endblock %}
+
+{% block jqcontent %}
+    <script type="text/javascript">
+      
+   $(document).ready(
+      function()
+      {
+      $("#bbtn").click(
+         function()
+         {
+          var id,title,author,price;
+          var id= $("#bid").val();
+          var title= $("#btitle").val();
+          var author= $("#bauthor").val();
+          var price= $("#bprice").val();
+         
+           $.ajax({
+              url:'/addbooks/',
+              type:'POST',
+              data: {'id':id,'title':title,'author':author,'price':price,
+              "csrfmiddlewaretoken" :"{{csrf_token}}",
+              },
+         
+               
+              });
+            //   success:function(result)
+            //   {
+            //   console.log(result);
+            //   result = jQuery.parseJSON(result);
+            //   result.forEach(function(value)
+              
+            //      {
+            //       console.log(value);
+            //       opt=opt+"<option>"+value.name+"</option>";
+            //      });
+            //    drpcity.html(opt);
+            //   }
+          
+         });
+ 
+   }); 
+   
+   </script>
+{% endblock jqcontent %}

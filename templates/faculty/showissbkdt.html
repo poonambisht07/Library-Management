@@ -1,0 +1,63 @@
+{% extends 'faculty/index.html' %}
+
+{% load static %}
+
+{% block title %} Show Page {% endblock %}
+
+{% block content %}
+
+<style>
+
+#rdt
+{
+margin-left: 0.5em;
+}
+
+</style>
+
+
+<div class="container mt-5">
+{% if info %}
+<h3> Book Issue Record </h3>
+<div style="height: 100px">
+<table class="table table-striped">
+<thead>
+    <tr>
+        <th>Book ID</th>
+        <th>Book Name</th>
+        <th>Student ID</th>
+        <th>Issue Date</th>
+        <th>Return Date</th>
+        <th>Fine</th>
+        <th>Actions</th>
+       
+    </tr>
+</thead>
+<tbody>
+    {% for rec in info %}
+<tr>
+    <td>{{rec.bid }} </td>
+    <td>{{rec.bkname }} </td>
+    <td>{{rec.sid }} </td>
+    <td>{{rec.issbkdt }} </td>
+    <td>{{rec.retdt }} </td>
+    <td>{{rec.fine }} </td>
+    
+    <td> <a href="{% url 'editissbk' %}?id={{ rec.id }}">Edit</a> | <a onclick="return confirm('Do You want to delete?')" href="{% url 'deleteissbk' %}?id={{ rec.id }}">Delete</a></td>
+    
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+
+<h3>You have no record</h3>
+
+
+{% endif %}
+</div>
+</div>
+
+</div>
+
+{% endblock %}

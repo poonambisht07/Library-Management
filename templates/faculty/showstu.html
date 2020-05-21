@@ -1,0 +1,64 @@
+{% extends 'faculty/index.html' %}
+
+{% load static %}
+
+{% block title %} Show Page {% endblock %}
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+<form action='/showstu/' method='post'>
+    {% csrf_token %}
+<div class=form>
+<input type="text" name="srh" placeholder="Enter Class">
+<button type="submit" name="btn">Search</button>
+
+</div>
+
+</form>
+<br>
+
+
+{% if info %}
+<h3> Student Record </h3>
+
+
+
+<div style="height: 100px">
+<table class="table table-striped">
+<thead>
+    <tr>
+        <th>Roll No.</th>
+        <th>Name</th>
+        <th>Father Name</th>
+        <th>Email</th>
+        <th>Student Class</th>
+        <th>Actions</th>
+        
+    </tr>
+</thead>
+<tbody>
+    {% for rec in info %}
+<tr>
+    <td>{{rec.rollno }} </td>
+    <td>{{rec.name }} </td>
+    <td>{{rec.fname }} </td>
+    <td>{{rec.email }} </td>
+    <td>{{rec.stu_class }} </td>
+    <td> <a href="{% url 'editstu' %}?id={{ rec.id }}">Edit</a> | <a onclick="return confirm('Do You want to delete?')" href="{% url 'delstu' %}?id={{ rec.id }}">Delete</a></td>
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+
+<h3>You have no record</h3>
+
+
+{% endif %}
+</div>
+</div>
+{% endblock %}

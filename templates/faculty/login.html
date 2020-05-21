@@ -1,0 +1,67 @@
+{% extends 'faculty/base.html' %}
+
+{% load static %}
+
+{% block title %} Login Page {% endblock %}
+
+ {% block content %}
+<style>
+
+body {
+  background-color: skyblue;
+  }
+
+  #btn_show
+  {
+	margin-left: 10px;
+	
+	
+  }
+  </style>
+  {% if result is not None %}
+    <div class="alert alert-success">
+    {{result}}
+    </div>
+
+    {% endif %}
+  
+
+<div class="container">
+<div class="justify-content-md-center">
+  <div class="card bg-light mt-5" style="max-width: 30rem;">
+        <article class="card-body">
+          <form method="post" class="form">
+          {% csrf_token %}
+
+          <h3 class="text-center pt-3"> Sign In</h3> 
+          <div class="form-group">
+            <label for="username" class="text-secondary">Email</label><br>
+            <input type="email" class="form-control" id="tbemail" required name="tbemail">
+            <p id="usernam" style="color:red">
+            
+            </p>
+          </div>        
+            
+        <div class="form-group">
+          <label for="password" class="text-secondary">Password</label><br>
+                         
+          <input type="password" class="form-control" id="tbPassword" required name="tbpassword">
+          </div>
+               
+        <div class="form-group">
+        <label class="text-secondary" for="remember-me"><span>Remember me</span></label>
+         <span> <input id="remember-me" name="remember-me" type="checkbox"></span>          
+        </div>
+        <div>
+          <input type="submit" class="btn btn-secondary center" id="btnSubmit" name="submit" value="Submit">
+        </div>
+        <div id="register-ink" class="text-right">
+        <a href="{% url 'signup_view' %}" class="text-secondary"> Register Here </a>
+        </div>
+        </form>
+        </article>
+      </div> </div>  </div>
+
+    
+  
+      {% endblock %}

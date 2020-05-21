@@ -1,0 +1,74 @@
+{% extends 'faculty/base.html' %}
+
+{% load static %}
+
+{% block title %} Signup Page {% endblock %}
+
+
+  {% block content %}
+
+<style>
+
+body {
+  background-color: skyblue;
+  }
+  .emsg, .emsg1, .emsg3, .emsg4
+    {
+    color: red;
+}
+.hidden {
+     visibility:hidden;
+}
+
+  </style>
+  {% if msg is not None %}
+
+    <div class="alert alert-success">
+    
+    <strong>{{ msg }}. </strong> 
+
+    {% endif %}
+    
+<div class="container ">
+    
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+  <div class="card bg-light mt-3" style="max-width: 25rem;">
+        <article class="card-body">
+ 
+          <form method="post" class="form">
+          {% csrf_token %}
+
+          <h3 class="text-center pt-2 pb-1 text-Secondary">SignUp</h3> 
+          <div class="form-group">
+            <label for="username" class="text-secondary">Name</label><br>
+            <input type="text" class="form-control" id="tbname" required name="tbname">
+           
+          </div>
+        <div class="form-group">
+          <label for="emailid" class="text-secondary">Email Id:</label><br>
+          <input type="emailid" class="form-control" id="tbemail" required name="tbemail" >
+          
+        </div>
+        <div class="form-group">
+          <label for="password" class="text-secondary">Password</label><br>
+          <input type="password" class="form-control" id="tbpassword" required name="tbpassword">
+          
+        </div>
+        <div class="form-group">
+          <label for="confpassword" class="text-secondary">Confirm Password</label><br>
+          <input type="password" class="form-control" id="conftbpassword" required name="conftbpassword">
+         
+        </div>              
+          <button type="submit" class="btn btn-secondary center mt-2" id="btnSubmit">Create Account</button>      
+        <div align="right">
+        <a href="{% url 'login_view' %}" class="text-secondary"> Login Here </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+  {% endblock %}
