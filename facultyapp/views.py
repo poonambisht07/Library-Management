@@ -299,7 +299,25 @@ def edit_issbk_view(request):
             rec.sid=sid
             rec.issbkdt=issdt
             rec.retdt=retdt            
-            rec.save()            
+            rec.save() 
+
+            rec = issbktb.objects.filter(id=bk_id)  
+            for r in rec:
+                print(r.id)
+                a = r.retdt
+                b = r.issbkdt
+                c = (a-b)
+                print(c)
+                c1 = (c.days)
+                print(c1)
+                if c1 > 1 :
+                    c1 += 1
+                    d = c1 * 5
+                    
+                elif c1 == 1:
+                    d = c1 * 5               
+                r.fine = d   
+                r.save()            
             return redirect('/showissbkdt/')
         except Exception as ex:
             print(ex)
