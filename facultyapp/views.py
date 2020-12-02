@@ -44,10 +44,10 @@ def signup(request):
             
             if r == "teacher":
                 rec.is_staff = True
-                rec.save()
+            rec.save()
 
-                rec1 = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
-                rec1.save()
+            rec1 = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
+            rec1.save()
             
             return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
         except:
@@ -187,7 +187,7 @@ def edit_profile(request):
         usr = User.objects.get(id=request.user.id)
         usr.first_name = s_n        
         usr.save()
-
+        
         data.cnt = s_cnt
         data.age = s_age
         data.city = s_city
