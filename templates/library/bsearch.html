@@ -1,0 +1,95 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Search Books {% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    
+      <div class="form-group">
+        <form>
+        <br><br>
+          <h4>Search Book </h4>
+     <input id="tbsearch" class="form-control" type="text" placeholder="Enter Book Name" style="width: 800px;">
+        </form>
+      </div>
+   <div id="resultdiv" class="form-group">
+    
+     <table class="table">
+       <thead>
+       <tr class="bg-success text-light"><th>Book ID</th>
+        <th>Book Name</th>
+         <th>Book Author</th>
+         <th> Category </th>
+         </tr>
+        </thead>
+         <br>
+        <tbody>
+
+        </tbody>
+         
+     </table>
+   </div>
+   </div>
+ </div>
+ </div>       
+ </div>
+    </div>
+
+{% endblock %}
+
+{% block jqcontent %}
+  <script type="text/javascript">
+
+  $(document).ready(
+    function()
+      {
+        
+        var tbody=$("#resultdiv .table tbody")
+        
+        $("#tbsearch").keyup(function()
+        {
+          console.log($(this).val());
+          $("tbody tr").remove();
+          var name;
+          name=$(this).val();
+          console.log(name);
+          if(name.length>0)
+          {          
+          $.ajax(
+          {
+            url : '/booksrch/',
+            type : 'POST',
+            data : {'in_name':name,         
+            "csrfmiddlewaretoken" : "{{ csrf_token }}"
+           },
+            
+       success:function(result)
+       {
+        
+        console.log(result);
+         //result=JSON.parse(result.toString()); 
+         var result=jQuery.parseJSON(result);
+         var tr="";
+        result.forEach(function(value)
+          {
+        tr += "<tr><td>"+value.bid+"</td><td>"+value.title+"</td><td>"+value.author+"</td><td>"+value.cat+"</td></tr>";
+            
+            });           
+        tbody.append(tr);
+          }
+              
+          });
+          }
+        
+      
+        });
+        
+       
+
+      });
+        </script>
+
+  {% endblock jqcontent %}

@@ -1,0 +1,59 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Add Books {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="col-md-6 mx-auto text-center">
+       <br><br>
+       <div class="header-title mt-5">
+          <h1 class="wv-heading--title">
+             Add Book Details
+          </h1>
+          
+       </div>
+    </div>
+    <div class="row">
+       <div class="col-md-4 mx-auto">
+          <div class="myform form ">
+             <form action="/addbooks/" method="POST">
+               {% csrf_token %}
+                 <div class="form-group mt-3">
+                  <input type="text" name="id"  class="form-control my-input" id="bid" placeholder="Book Id" required >
+                  </div>
+                <div class="form-group">
+                  <input type="text" name="title"  class="form-control my-input" id="btitle" placeholder="Book Title" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" name="author"  class="form-control my-input" id="bauthor" placeholder="Book Author Name" required>
+               </div>
+               <div class="form-group">
+                  <select name="category" class="form-control">
+                     <option value="education">Education</option>
+                     <option value="entertainment">Entertainment</option>
+                     <option value="comics">Comics</option>
+                     <option value="biography">Biography</option>
+                     <option value="history">History</option>
+                  </select>                  
+               </div>               
+               
+                <div class="text-center ">
+                   <button type="submit" id="bbtn" class=" btn btn-success send-button tx-tfm">Add Book</button>                   
+                 </div> 
+                 <br><br>
+                 <h5 style="color: green"> 
+                    {{ msg }}
+                 </h5>
+
+                </div>
+                
+             </form>
+          </div>
+       </div>
+    </div>
+ </div>
+
+{% endblock %}

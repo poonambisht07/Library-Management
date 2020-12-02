@@ -1,0 +1,191 @@
+{% extends 'library/base.html' %}
+{% load static %}
+
+{% block title %} SignUp Page {% endblock %} 
+
+ {% block content %}
+ <style>
+
+.emsg, .emsg1, .emsg3, .emsg4{
+    color: red;
+}
+.hidden {
+     visibility:hidden;
+}
+.card{
+    margin-top: 10%;
+    margin-bottom: 3%;
+  }
+  </style>
+
+{% if msg is not None %}
+
+  <div class="alert alert-success">
+      
+    <center><strong>{{ msg }}. </strong> </center>
+
+  </div> 
+    {% endif %}
+   
+<div class="container">    
+<div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <div class="card bg-light" style="width: 30  rem;">
+        <article class="card-body"> 
+          <form action="" method="post" class="form">
+          {% csrf_token %}
+
+          <h3 class="text-center pt-2 pb-1">Sign up</h3> 
+          <div class="form-group">
+            <label for="username" class="text-primary">Name</label><br>
+            <input type="text" class="form-control" id="tbname" required name="tbname">
+           
+          </div>
+        <div class="form-group">
+          <label for="emailid" class="text-primary">Email Id:</label><br>
+          <input type="emailid" class="form-control" id="tbemail" required name="tbemail" >
+          <p id="result"></p>
+        </div>
+        <div class="form-group">
+          <label for="password" class="text-primary">Password</label><br>
+          <input type="password" class="form-control" id="tbpassword" required name="tbpassword">
+          
+        </div>
+        <div class="form-group">
+          <label for="confpassword" class="text-primary">Confirm Password</label><br>
+          <input type="password" class="form-control" id="conftbpassword" required name="conftbpassword">
+         
+        </div>   
+        <div class="form-group">
+          <label for="contact" class="text-primary">Contact Number</label><br>
+          <input type="number" class="form-control" name="tbcontact" id=contact>
+          <p id="result1"></p>
+      </div>
+      <div class="form-group">
+          <label for="roll" class="text-primary">Roll</label>
+          <select name="tbroll" class="form-control" id="tbroll">
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+          </select>
+      </div> 
+      <div id="forstu" style="display:none">
+      <div class="form-group">
+        <label for="text" class="text-primary">Enrollment</label><br>
+        <input type="text" class="form-control" name="tbenr" id=tbenr> 
+        <p id="result2"></p>      
+    </div>
+    <div class="form-group">
+      <label for="branch" class="text-primary">Branch</label><br>
+      <input type="text" class="form-control" name="tbranch" id=tbranch>  
+         
+  </div>        
+</div>
+          <button type="submit" class="btn btn-primary center mt-2 ml-2" id="btnSubmit">Create Account</button>      
+        <div align="right">
+        <a href="{% url 'login_view' %}" class="text-primary"> Login Here </a>
+        </form>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#tbemail").keyup(function(){
+    var email = $("#tbemail").val();
+    // alert(email);
+    if(email.length>0);
+    {
+    $.ajax(
+      {
+        url:"/user_check/",
+        type : 'GET',
+        data:{'username':email,
+        "csrfmiddlewaretoken" : "{{ csrf_token }}"
+        },
+        success:function(data){
+         if (data == "Exists")
+         {
+          $("#result").html("This Email Id is already taken.").addClass("text-danger");
+          $("#tbemail").addClass("alert alert-danger");
+          $('#btnSubmit').attr("disabled","disabled");
+         }
+         else{
+          $("#result").html("");
+          $("#tbemail").removeClass("alert alert-danger");
+          $('#btnSubmit').removeAttr("disabled");
+         }
+        }
+      });
+    }
+  });
+
+$("#contact").keyup(function(){
+  var cntexp = /^[7-9]{1}[0-9]{9}$/;
+  // var phno=/^\d{10}$/;
+  var cnt = $("#contact").val();
+  // alert(cnt);
+  // console.log(cnt);  
+  if(!cnt.match(cntexp))
+  {    
+    $("#result1").html("Mobile Number is Invaid").addClass("text-danger");
+    $("#contact").addClass("alert alert-danger");
+    $("#btnSubmit").attr("disabled","disabled");    
+  }
+  else{
+    $("#result1").html("");
+    $("#contact").removeClass("alert alert-danger");
+    $('#btnSubmit').removeAttr("disabled"); 
+  }   
+});
+$('#tbroll').change(function(){
+  var r = $(this).val();    
+    // console.log(r);
+    if (r == "student"){
+      $('#forstu').show();
+    }
+    else{
+      $('#forstu').hide();
+    }
+});
+
+$("#tbenr").keyup(function(){
+    var enr = $("#tbenr").val();
+    // alert(enr);
+    if(enr.length>0);
+    {
+    $.ajax(
+      {
+        url:"/enr_check/",
+        type : 'GET',
+        data:{'enroll':enr,
+        "csrfmiddlewaretoken" : "{{ csrf_token }}"
+        },
+        success:function(data){
+         if (data == "Exists")
+         {
+          $("#result2").html("This Enrollment is already taken.").addClass("text-danger");
+          $("#tbenr").addClass("alert alert-danger");
+          $('#btnSubmit').attr("disabled","disabled");
+         }
+         else{
+          $("#result2").html("");
+          $("#tbenr").removeClass("alert alert-danger");
+          $('#btnSubmit').removeAttr("disabled");
+         }
+        }
+      });
+    }
+  });
+
+
+
+});
+</script>
+
+
+{% endblock %}

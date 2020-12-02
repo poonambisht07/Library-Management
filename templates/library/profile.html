@@ -1,0 +1,50 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} View Profile {% endblock %}
+
+{% block content %}
+<head>
+<style>
+	td, tr {
+		text-align: center;			
+ } 
+	#mycard{
+		margin-top: 130px;
+    width: 30rem;
+    text-align: center;    
+	}
+ 
+</style>
+</head> 
+<center>
+<div class="card" id="mycard">
+  <div class="card-header bg-success text-white">
+    <h1>My Details</h1>
+  </div>
+  <div class="card-body">					
+  <table class="table table-bordered">				
+    <tbody>
+    <tr>
+      <th>Name </th>
+      <td>{{user.first_name}}</td>
+    </tr>
+  <tr>
+      <th>Username </th>
+      <td>{{user.username}}</td>
+    </tr>
+    <tr>
+      <th>Last Login </th>
+      <td>{{user.last_login}}</td>
+    </tr>
+    <tr>
+      <th>Join Date </th>
+      <td>{{user.date_joined}}</td>
+    </tr>					
+    </tbody>
+    </table>
+  </div>
+</div>
+</center>
+    {% endblock %}

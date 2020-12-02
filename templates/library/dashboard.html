@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="it">
+	<meta name="keywords">
+
+	<title>{% block title %}  {% endblock %}</title>
+	
+	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+	 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+ 
+	
+ <style>	
+
+	.col-md-2{
+		height:83vh;
+	}
+	img	{
+		height:100px;
+		width: 100px;
+		border-radius: 30%;
+	}		
+		
+</style> 	
+
+</head>
+<body>
+    <!-- Header Menu of the Page -->
+<header> 
+		
+	<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+		<a class="navbar-brand" href="/dashboard">Home</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>	  
+<!-- Teacher nav bar -->
+{% if user.is_staff %}
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			  <div class="dropdown">
+				  <button class="btn text-white  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Student
+				  </button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="/addstudent">View Student</a>
+			
+		  </div>
+		</div>
+	   
+		<div class="dropdown">
+		  <button class="btn text-white  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Books
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="/addbooks"> Add Books</a>
+			<a class="dropdown-item" href="/showbk">Show Books</a>
+			<a class="dropdown-item" href="/bsearch">Search Books</a>
+		  </div>
+		</div>
+	  
+		<div class="dropdown">
+		  <button class="btn text-white  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Issue Books
+		  </button>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="/addissbk"> Add Issue Books</a>
+		<!--<a class="dropdown-item" href="/adreturn/">Add Return Books</a> -->
+			<a class="dropdown-item" href="/showissbkdt">Show Issue Book Details</a>			
+			
+		  </div>
+		</div>
+	</div>
+{% endif %}
+
+	<!-- Student NavBar -->
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">			
+{% if not user.is_staff %}
+				<li class="nav-item active">
+				<a class="dropdown-item text-white" href="/viewstu/">View Books</a>
+			  </li>
+{% endif %}
+			  <li>
+				<a href="{% url 'about_page' %}" class="dropdown-item text-white">About Us</a>				
+			  </li>
+			  <li>
+				<a href="{% url 'contact_page' %}" class="dropdown-item text-white">Contact Us</a>
+			  </li>
+			   </ul>
+			<ul class="navbar-nav navbar-right mr-3">					     
+				 <li class="nav-item active">
+				<a class="nav-link">Hi! {{request.user}} </a>
+			  </li>
+			  <li class="nav-item active">
+				<a class="dropdown-item text-white" href="{% url 'user_logout' %}">Logout</a>
+			  </li>
+		    </ul>		
+		</div>
+
+	  </nav>
+</header> 
+<div class="container-fluid">
+	<div class="row">
+		<!-- left side menu -->
+		<div class="col-md-2 bg-dark py-5" id="leftside">						
+			<nav class='navbar navbar-dark' id="leftnavbar">
+				<a href="" class="navbar-brand">
+					<div class="text mx-2">
+						{% if data.profile_pic %}
+						<img src="/media/{{data.profile_pic}}">						
+						{% else %}
+						<img src="{% static 'images/user.png' %}">
+						{% endif %}
+					</div>
+						<p class="mx-0 my-2"> {{user.first_name}}</p>
+				</a>
+				<ul class="navbar-nav">
+				<li class="nav-item">
+					<a href="{% url 'dashboard' %}" class="nav-link navbar-brand font-weight-bolder">View Profile</a>				
+				</li>
+				<li class="nav-item">					
+				<a href="{% url 'edit_profile' %}"class="nav-link navbar-brand font-weight-bolder">Edit Profile</a>
+				</li>
+				<li class="nav-item">
+					<a href="{% url 'change_pass' %}" class="nav-link navbar-brand font-weight-bolder">Change Password</a>
+				</li>
+				<li class="nav-item">
+					<a href="{% url 'send_mail' %}" class="nav-link navbar-brand font-weight-bolder">Send E-Mail</a>
+				</li>
+				</ul>
+			</nav>
+				</div>
+		<div class="col-md-10">			
+			
+			{% block content %}
+			
+			{% endblock %}
+			
+		</div>		
+	</div>
+</div>
+{% include 'library/footer.html' %}
+{% block jqcontent %}
+
+
+{% endblock jqcontent %}
+</body>
+</html>

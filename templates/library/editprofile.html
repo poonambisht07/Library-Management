@@ -1,0 +1,128 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Profile Settings {% endblock %}
+
+{% block content %}
+<head>
+  
+ <style>
+  .heading{
+    text-align: left;
+  }
+  
+</style>
+</head>  
+  <div class="container">
+    <div class="heading mt-2" >
+   <h3>Edit Profile</h3>
+   <hr>
+  </div>
+ <div class="row">
+    <!-- left column -->
+    <div class="col-md-3 mt-1 bg-success border-right">
+      <br><br><br><br><br>
+      <div class="text-center">
+        {% if data.profile_pic %}
+        <img src="/media/{{data.profile_pic}}" style="height:150px; width:150px; border-radius:30%;"> 
+        {% else %}
+         <img src="{% static 'images/user.png' %}" style="height:150px; width:150px; border-radius:30%;">
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-md-9 personal-info border-right">
+      <h4 class="heading">Personal info</h4>      
+      <hr class="mb-2">
+      
+      <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if msg %}
+        <div class="alert alert-primary text-center" style="width: 500px;">{{msg}}</div>
+        {% endif%}
+        <div class="form-group row"> 
+              <label class="col-md-3 col-form-label">Name:</label>
+              <div class="col-md-6">
+                <input class="form-control" type="text" name="tbname" placeholder="Enter Name" value="{{user.first_name}}">
+              </div> 
+        </div>
+
+        <div class="form-group row"> 
+            <label class="col-md-3 col-form-label">Age:</label>
+            <div class="col-md-6">
+              <input class="form-control" type="text" name="tbage" placeholder="Enter Age" min="15" max="99" value="{{data.age}}">
+            </div> 
+        </div>
+              
+        <div class="form-group row"> 
+          <label class="col-md-3 col-form-label">City:</label>
+          <div class="col-md-6">
+            <input class="form-control" type="text" name="tbcity" placeholder="Enter City" value="{{data.city}}">
+          </div> 
+        </div>
+
+        <div class="form-group row"> 
+          <label class="col-md-3 col-form-label">Gender:</label>
+          <div class="col-md-6">
+            <select name="tbgender" class="form-control">
+              <option value="Male"> Male</option>
+              {% if data.gender == "Female" %}
+              <option value="Female" selected> Female</option>
+              {% else %}
+              <option value="Female"> Female</option>
+              {% endif %}
+            </select>            
+          </div> 
+        </div>
+
+        <div class="form-group row"> 
+          <label class="col-md-3 col-form-label">Contact Number:</label>
+          <div class="col-md-6">
+            <input class="form-control" type="text" name="tbcnt" placeholder="Enter Contact Number" id="contact" value="{{data.cnt}}">
+          </div> 
+        </div>
+
+        <div class="form-group row"> 
+          <label class="col-md-3 col-form-label">Profile Picture:</label>
+          <div class="col-md-6">
+            <input class="form-control" type="file" name="tbimg">
+          </div> 
+        </div>
+
+      <div class="form-group">
+          <label class="col-md-3 col-form-label"></label>
+          <div class="col-md-6">
+            <input type="submit" class="btn btn-success mx-3" name="tbcp" value="Save Changes">
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+    
+
+    {% endblock %}
+<!-- Mobile Validation  -->
+{% block jqcontent %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#contact").keyup(function(){
+  var cntexp = /^[7-9]{1}[0-9]{9}$/;
+  var cnt = $("#contact").val();
+  // alert(cnt);  
+  if(!cnt.match(cntexp))
+  {    
+    $("#result1").html("Mobile Number is Invaid").addClass("text-danger");
+    $("#contact").addClass("alert alert-danger");
+    $("#btnSubmit").attr("disabled","disabled");    
+  }
+  else{
+    $("#result1").html("");
+    $("#contact").removeClass("alert alert-danger");
+    $('#btnSubmit').removeAttr("disabled"); 
+  }   
+});
+});
+</script>
+
+{% endblock jqcontent %}

@@ -1,0 +1,61 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Show Page {% endblock %}
+
+{% block content %}
+
+
+
+<div class="container mt-5">
+
+
+{% if info %}
+<h3> Student Record </h3>
+
+
+
+<div style="height: 100px">
+<table class="table table-striped">
+<thead>
+    <tr class="bg-success">
+        <th>Name</th>
+        <th>Enrollment</th>
+        <th>Book Id</th>
+        <th>Book Name</th>
+        <th>Issue Date</th>
+        <th>Expiry Date</th>
+        <th>Fine</th>
+        
+    </tr>
+</thead>
+<tbody>
+    {% for rec in info %}
+<tr>
+    <td>{{rec.s_name }} </td>
+    <td>{{rec.s_enroll }} </td>
+    <td>{{rec.b_id }} </td>
+    <td>{{rec.b_name }} </td>
+    <td>{{rec.issbkdt }} </td>
+    <td>{{rec.expirydt }} </td>
+    <td>{{rec.fine }} </td>
+   
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+
+
+
+{% else %}
+
+<h3>You have no record</h3>
+
+
+{% endif %}
+</div>
+</div>
+{% endblock %}

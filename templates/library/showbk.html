@@ -1,0 +1,84 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Show Page {% endblock %}
+
+{% block content %}
+
+
+<br><br> <br>
+{% if info %}
+<h3 style="margin-top: 10px; text-align:center;"> Books Record </h3>
+<div class="container mt-3">
+<div style="height: 100px;">
+<table class="table table-striped">
+<thead>
+    <tr class="bg-success text-light">
+        <th>Book ID</th>
+        <th>Book Name</th>
+        <th>Book Author</th>
+        <th>Category</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    {% for rec in info %}
+<tr>
+    <td>{{rec.bid }} </td>
+    <td>{{rec.title }} </td>
+    <td>{{rec.author }} </td>
+    <td>{{rec.cat }} </td>
+    <td><a href="{% url 'editbk' %}?id={{rec.id}}">Edit</a> | <a href="{% url 'delbk' %}?id={{rec.id}}">Delete</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<nav class="mt-5" aria-label="Page navigation example">
+    {% if info.has_other_pages %}
+       <ul class="pagination justify-content-center">
+        {% if info.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ info.previous_page_number }}" tabindex="-1">&laquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span>&laquo;</span></a>
+            </li>
+        {% endif %}
+
+        {% for i in info.paginator.page_range %}
+            {% if info.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        {{ i }} 
+                    <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}" tabindex="-1">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %} 
+        {% if info.has_next %} 
+            <li class="page-item">
+                <a class="page-link" href="?page={{ info.next_page_number }}" tabindex="-1">&raquo;</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span>&raquo;</span></a>
+            </li>
+        {% endif %}
+        </ul>
+    {% endif %}
+</nav>
+
+{% else %}
+
+<h3>You have no record</h3>
+
+{% endif %}
+</div>
+</div>
+</div>
+{% endblock %}

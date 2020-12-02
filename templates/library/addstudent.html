@@ -1,0 +1,160 @@
+{% extends 'library/dashboard.html' %}
+
+{% load static %}
+
+{% block title %} Add Student {% endblock %}
+
+{% block content %}
+<style>
+ 
+  .send-button{
+  background: #438cc7;
+  width:100%;
+  font-weight: 600;
+  color:#fff;
+  padding: 8px 25px;
+  }
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+  .g-button{
+  color: #fff !important;
+  border: 1px solid #EA4335;
+  background: #ea4335 !important;
+  width:100%;
+  font-weight: 600;
+  color:#fff;
+  padding: 8px 25px;
+  }
+  .my-input{
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: text;
+  padding: 8px 10px;
+  transition: border .1s linear;
+  margin-top: 0;
+  
+  }
+  .header-title{
+  margin: 5rem 0;
+  margin-bottom: 30px;
+  }
+  h1{
+  font-size: 31px;
+  line-height: 40px;
+  font-weight: 600;
+  color:#4c5357;
+  }
+  h2{
+  color: #5e8396;
+  font-size: 21px;
+  line-height: 32px;
+  font-weight: 400;
+  }
+  .login-or {
+  position: relative;
+  color: #aaa;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  }
+  .span-or {
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  margin-left: -25px;
+  background-color: #fff;
+  width: 50px;
+  text-align: center;
+  }
+  .hr-or {
+  height: 1px;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  }
+  @media screen and (max-width:480px){
+  h1{
+  font-size: 26px;
+  }
+  h2{
+  font-size: 20px;
+  }
+  }
+</style>
+    
+<div class="container">
+   <h3 class="text-center mt-5">Student Register in Library </h3>
+   <div class="myform form ">
+      <form action='/addstudent/' method='post'>
+         {% csrf_token %}
+         <div class="table-responsive mt-5">
+            {% if users %}
+         <table class=" table table-stripted">
+            <thead class="bg-success text-white">
+               <th> Name </th>
+               <th> Enrollment </th>
+               <th>Branch</th>
+            </thead>
+            <tbody>
+               {% for j in users %} 
+               <tr>                          
+               <td>{{j.first_name}}</td>
+                  <td>{{j.register.enrollment}}</td>
+                  <td>{{j.register.branch}}</td>
+                  </tr>
+                  {% endfor %}
+            
+            </tbody>
+         </table>
+
+                     
+<nav class="mt-5" aria-label="Page navigation example">
+   {% if users.has_other_pages %}
+      <ul class="pagination justify-content-center">
+       {% if users.has_previous %}
+           <li class="page-item">
+             <a class="page-link" href="?page={{ users.previous_page_number }}" tabindex="-1">&laquo;</a>
+           </li>
+       {% else %}
+           <li class="page-item disabled">
+               
+               <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span>&laquo;</span></a>
+           </li>
+       {% endif %}
+
+       {% for i in users.paginator.page_range %}
+           {% if users.number == i %}
+               <li class="page-item active" aria-current="page">
+                   <span class="page-link">
+                       {{ i }} 
+                   <span class="sr-only">(current)</span>
+                   </span>
+               </li>
+       {% else %}
+           <li class="page-item"><a class="page-link" href="?page={{ i }}" tabindex="-1">{{ i }}</a></li>
+       {% endif %}
+       {% endfor %} 
+       {% if users.has_next %} 
+           <li class="page-item">
+               <a class="page-link" href="?page={{ users.next_page_number }}" tabindex="-1">&raquo;</a>
+           </li>
+       {% else %}
+           <li class="page-item disabled">
+               <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span>&raquo;</span></a>
+           </li>
+       {% endif %}
+       </ul>
+   {% endif %}
+</nav> 
+            {% else %}
+               <h1> No Student Registered in Library</h1>
+            {% endif %}
+         </div>
+      </form>
+   </div>
+</div>
+
+    {% endblock %}
