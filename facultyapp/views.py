@@ -46,8 +46,8 @@ def signup(request):
                 rec.is_staff = True
                 rec.save()
 
-            rec1 = register(user=rec, cnt=ct, enrollment=en,branch=branch.title())            
-            rec1.save()
+                rec1 = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
+                rec1.save()
             
             return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
         except:
@@ -463,7 +463,7 @@ def send_mail(request):
         msg = request.POST.get("msg")
                 
         try:
-            em = EmailMessage(sub,msg,to=rec)
+            em = EmailMessage(sub,msg,to=rec)   
             em.send()
             context["status"] = "Email Sent"
             context["cls"] = "alert-success"
