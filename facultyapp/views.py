@@ -39,20 +39,16 @@ def signup(request):
         branch = request.POST.get('tbranch')
         # print(en,branch)
         
-        try:
-            rec = User.objects.create_user(username=e,email=e,password=p)
-            #  rec = User.objects.create_user(email=e,password=p,username=e)
-            rec.first_name=n.title()
-            if r == "teacher":
-                rec.is_staff = True
-            rec.save()
+        
+        rec = User.objects.create_user(username=e,email=e,password=p)
+        rec.first_name=n.title()
+        if r == "teacher":
+            rec.is_staff = True
+        rec.save()
 
-            reg = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
-            reg.save()
-            return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
-        except:
-            return render(request, 'library/signup.html', {'msg':'try again'})
-            
+        reg = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
+        reg.save()
+        return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
     return render(request,'library/signup.html')
 
 def user_check(request):
