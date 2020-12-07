@@ -51,7 +51,7 @@ def signup(request):
             reg.save()
             return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
         except:
-            return render(request, 'faculty/signup.html', {'msg':'try again'})
+            return render(request, 'library/signup.html', {'msg':'try again'})
             
     return render(request,'library/signup.html')
 
