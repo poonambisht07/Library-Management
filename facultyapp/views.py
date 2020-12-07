@@ -41,7 +41,7 @@ def signup(request):
         # print(en,branch)
         
         try:
-            rec = User.objects.create_user(e,e,p)
+            rec = User.objects.create_user(username=e,email=e,password=p)
             #  rec = User.objects.create_user(email=e,password=p,username=e)
             rec.first_name=n.title()
             if r == "teacher":
