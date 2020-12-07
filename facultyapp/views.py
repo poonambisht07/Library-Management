@@ -14,6 +14,13 @@ from django.core.mail import EmailMessage
 # Create your views here.
 def mainpage(request):
     context = {}
+       
+    res = contact_us.objects.all().order_by("-id")[:5]
+    context = {'rec':res}
+
+    return render(request,'library/base.html', context)
+
+def signup(request):
     if "user_id" in request.COOKIES:
         uid = request.COOKIES["user_id"]
         usr = get_object_or_404(User, id=uid)
@@ -22,13 +29,7 @@ def mainpage(request):
             return HttpResponseRedirect("/admin")
         if usr.is_active:
             return HttpResponseRedirect("/dashboard")
-    
-    res = contact_us.objects.all().order_by("-id")[:5]
-    context = {'rec':res}
 
-    return render(request,'library/base.html', context)
-
-def signup(request):
     if request.method == "POST":
         n = request.POST.get('tbname')
         e = request.POST.get('tbemail')
@@ -48,10 +49,8 @@ def signup(request):
                 rec.is_staff = True
             rec.save()
 
-            rec1 = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
-            rec1.save()
-            # print(rec,rec1)
-            # return render(request, 'faculty/signup.html', {'msg':'Thanks for register'})
+            reg = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
+            reg.save()
             return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
         except:
             return render(request, 'faculty/signup.html', {'msg':'try again'})
