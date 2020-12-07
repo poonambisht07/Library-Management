@@ -54,7 +54,7 @@
         <div class="form-group">
           <label for="confpassword" class="text-primary">Confirm Password</label><br>
           <input type="password" class="form-control" id="conftbpassword" required name="conftbpassword">
-         
+         <p id="psd"></p>
         </div>   
         <div class="form-group">
           <label for="contact" class="text-primary">Contact Number</label><br>
@@ -182,8 +182,22 @@ $("#tbenr").keyup(function(){
     }
   });
 
-
-
+  $('input').keyup(function() {
+    var pass = $('input[name=tbpassword]').val();
+    var cpass = $('input[name=conftbpassword]').val();
+    console.log(pass,cpass)
+        if (pass != cpass) {      
+            $('#psd').html("Password does not match.").addClass("text-danger");
+            $('#tbpassword').addClass("alert alert-danger");
+            $('#conftbpassword').addClass("alert alert-danger");
+            $("#btnSubmit").attr("disabled","disabled");  
+        } else {
+            $('#psd').html("");
+            $('#tbpassword').removeClass("alert alert-danger");
+            $('#conftbpassword').removeClass("alert alert-danger");
+            $("#btnSubmit").removeAttr("disabled"); 
+        }
+    });
 });
 </script>
 

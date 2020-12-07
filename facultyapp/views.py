@@ -39,21 +39,24 @@ def signup(request):
         en= request.POST.get('tbenr')
         branch = request.POST.get('tbranch')
         # print(en,branch)
+        
         try:
-            rec = User.objects.create(first_name=n.title(),email=e,password=p,username=e)
-            
+            rec = User.objects.create_user(e,e,p)
+            #  rec = User.objects.create_user(email=e,password=p,username=e)
+            rec.first_name=n.title()
             if r == "teacher":
                 rec.is_staff = True
             rec.save()
 
             rec1 = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
             rec1.save()
-            
+            # print(rec,rec1)
+            # return render(request, 'faculty/signup.html', {'msg':'Thanks for register'})
             return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
         except:
-            return render(request, 'library/signup.html', {'msg':'Try again'})
-    else:
-        return render(request,'library/signup.html')
+            return render(request, 'faculty/signup.html', {'msg':'try again'})
+            
+    return render(request,'library/signup.html')
 
 def user_check(request):
     if request.method == "GET":
