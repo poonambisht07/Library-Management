@@ -37,7 +37,8 @@ class issbktb(models.Model):
 
 class register(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cnt = models.IntegerField()
+    # cnt = models.IntegerField()
+    cnt = models.PhoneNumberField()
     profile_pic = models.ImageField(upload_to="profiles/%Y/%m/%d",null=True,blank=True)
     age = models.CharField(max_length=250,null=True,blank=True)
     city = models.CharField(max_length=250,null=True,blank=True)    
