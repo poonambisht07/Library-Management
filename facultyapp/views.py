@@ -13,8 +13,6 @@ from django.core.mail import EmailMessage
 
 # Create your views here.
 def mainpage(request):
-    context = {}
-       
     res = contact_us.objects.all().order_by("-id")[:5]
     context = {'rec':res}
 
