@@ -39,17 +39,19 @@ def signup(request):
         branch = request.POST.get('tbranch')
         # print(en,branch)
         
-        
-        rec = User.objects.create_user(username=e,email=e,password=p)
-        rec.first_name=n.title()
-        if r == "teacher":
-            rec.is_staff = True
-        rec.save()
+        try:    
+            rec = User.objects.create(first_name=n,username=e,email=e,password=p)
+            if r == "teacher":
+                rec.is_staff = True
+            rec.save()
 
-        reg = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
-        reg.save()
-        return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
-    return render(request,'library/signup.html')
+            reg = register(user=rec,cnt=ct,enrollment=en,branch=branch.title())            
+            reg.save()
+            return render(request, 'library/signup.html', {'msg':'Mr/Miss. {} Thanks for register'.format(n)})
+        except:
+           return render(request, 'library/signup.html', {'msg': 'failed to insert record try again'})
+    else:
+        return render(request,'library/signup.html')
 
 def user_check(request):
     if request.method == "GET":
@@ -106,17 +108,21 @@ def user_login(request):
     if (request.method == 'POST'):
         e = request.POST.get('tbemail')
         p = request.POST.get('tbpassword')
-        # print(request.POST)         
-        user = authenticate(request, username=e, password=p)    
+        print(request.POST) 
+        print(e) 
+        print(p)         
+        user = authenticate(request, username=e, password=p)  
+        print(user)  
         if user:            
             login(request, user)
+            # return HttpResponseRedirect('/dashboard')
             if user.is_superuser:
                 return HttpResponseRedirect('/admin')
             else:
                 res = HttpResponseRedirect("/dashboard")
                 if "rememberme" in request.POST:
                     res.set_cookie("user_id",user.id)
-                    # print(user.id)
+                    print(user.id)
                     res.set_cookie("date_login",datetime.now())
                 return res
                 
