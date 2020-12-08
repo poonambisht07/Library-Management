@@ -40,7 +40,7 @@ def signup(request):
         # print(en,branch)
         
         try:    
-            rec = User.objects.create(first_name=n,username=e,email=e,password=p)
+            rec = User.objects.create(first_name=n.title(),username=e,email=e,password=p)
             if r == "teacher":
                 rec.is_staff = True
             rec.save()
