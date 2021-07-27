@@ -25,6 +25,7 @@
       <br><br><br><br><br>
       <div class="text-center">
         {% if data.profile_pic %}
+        my_app{email}/{fullname}-{filename}
         <img src="/media/{{data.profile_pic}}" style="height:150px; width:150px; border-radius:30%;"> 
         {% else %}
          <img src="{% static 'images/user.png' %}" style="height:150px; width:150px; border-radius:30%;">
@@ -101,7 +102,9 @@
 </div>
     
 
-    {% endblock %}
+{% endblock %}
+
+
 <!-- Mobile Validation  -->
 {% block jqcontent %}
 <script type="text/javascript">
